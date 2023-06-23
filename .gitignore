@@ -1,0 +1,9 @@
+# Cmake build directory.
+.build
+build
+
+# Vs folder for Microsoft Visual Studio.
+.vs
+
+# CMake install directories.
+install

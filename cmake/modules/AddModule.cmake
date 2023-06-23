@@ -1,0 +1,6 @@
+function(add_module TARGET MODULE DIR)
+    add_subdirectory("${DIR}")
+    target_compile_options(${MODULE} PRIVATE "-w")
+    add_dependencies(${TARGET} ${MODULE})
+    target_link_libraries(${TARGET} ${MODULE})
+endfunction()
