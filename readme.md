@@ -1,9 +1,14 @@
 # Arcanoid game
 
-Build Platform          |        Stack                                      |
-------------------------|       --------------------------------------------|
-Linux x64(gcc, clang)   |       SDL3, OpenGL ES 3.2, c++17, ImGui, glm, fmt |
-Windows x64(MSVC, LLVM) |                                                   |
+Build Platform          |
+------------------------|
+Linux x64(gcc, clang)   |
+Windows x64(MSVC, LLVM) |
+
+ Stack                                      |
+--------------------------------------------|
+SDL3, OpenGL ES 3.2, c++17, ImGui, glm, fmt |
+
 
 This project was written basing on the work stuff from [`LestaGamesCourse`](https://github.com/ArthurBandaryk/LestaGamesCourse) repository.
 
