@@ -54,8 +54,18 @@ endif()
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/fmt
                  ${CMAKE_BINARY_DIR}/fmt)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
-                 ${CMAKE_BINARY_DIR}/SDL)
+if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Android")
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
+                     ${CMAKE_BINARY_DIR}/SDL)
+elseif(SDL3_SRC_DIR)
+    add_subdirectory(
+        # Specifies the directory for SDL3 root CMakeLists.txt.
+        ${SDL3_SRC_DIR}
+        # Specifies the directory for the build outputs.
+        ${CMAKE_CURRENT_BINARY_DIR}/SDL_${ANDROID_ABI})
+else()
+    message(FATAL_ERROR "SDL3 source directory not found for Android build.")
+endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/glm
                  ${CMAKE_BINARY_DIR}/glm)
@@ -65,15 +75,20 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/glm
 list(
     APPEND
     APP_SOURCES
-    src/main.cxx
     src/component.cxx
     src/entity.cxx
     src/game-system.cxx
     src/game.cxx
-    src/coordinator.cxx)
+    src/coordinator.cxx
+    src/main.cxx)
 
 # Game.
-add_executable(arcanoid ${APP_SOURCES})
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
+    add_library(arcanoid SHARED ${APP_SOURCES})
+else()
+    add_executable(arcanoid ${APP_SOURCES})
+endif()
+
 target_compile_options(
     arcanoid
     PRIVATE

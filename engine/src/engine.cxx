@@ -6,6 +6,12 @@
 //
 #include <SDL3/SDL.h>
 
+#ifdef __ANDROID__
+/* clang-format off */
+#include <SDL3/SDL_main.h>
+/* clang-format on */
+#endif
+
 //
 #include <imgui.h>
 #include <imgui_impl_opengl.hxx>
@@ -377,7 +383,7 @@ namespace arci
         const std::filesystem::path fs_path { path.data() };
 
         const std::size_t bytes_to_read {
-            std::filesystem::file_size(fs_path)
+            static_cast<std::size_t>(std::filesystem::file_size(fs_path))
         };
 
         CHECK(bytes_to_read);

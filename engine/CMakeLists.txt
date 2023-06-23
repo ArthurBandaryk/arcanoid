@@ -18,7 +18,19 @@ target_include_directories(
     engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/imgui_impl
                    ${CMAKE_CURRENT_SOURCE_DIR}/external/stb_image)
 
-target_link_libraries(engine glm::glm fmt::fmt SDL3::SDL3-shared)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
+    target_link_libraries(
+        engine
+        SDL3::SDL3-shared
+        android
+        log
+        EGL
+        GLESv3
+        glm::glm
+        fmt::fmt)
+else()
+    target_link_libraries(engine glm::glm fmt::fmt SDL3::SDL3-shared)
+endif()
 
 add_module(engine glad ${PROJECT_SOURCE_DIR}/glad)
 add_module(engine imgui ${PROJECT_SOURCE_DIR}/external/imgui)

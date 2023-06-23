@@ -7,3 +7,9 @@ build
 
 # CMake install directories.
 install
+
+.idea
+out
+.gradle
+local.properties
+.cxx
