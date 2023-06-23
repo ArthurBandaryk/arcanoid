@@ -1,9 +1,11 @@
 # Arcanoid game
 
-Build Platform          |
-------------------------|
-Linux x64(gcc, clang)   |
-Windows x64(MSVC, LLVM) |
+Build Platform          | Stack                                      |
+------------------------|--------------------------------------------|
+Linux x64(gcc, clang)   |SDL3, OpenGL ES 3.2, c++17, ImGui, glm, fmt |
+Windows x64(MSVC, LLVM) |                                            |
+
+This project was written basing on the work stuff from [`LestaGamesCourse`](https://github.com/ArthurBandaryk/LestaGamesCourse) repository.
 
 ![Arcanoid](help-imgs/game.png)
 
@@ -12,8 +14,8 @@ Windows x64(MSVC, LLVM) |
 1. Run the following sets of commands in terminal:
 
 ```
-git clone --recurse-submodules https://github.com/ArthurBandaryk/LestaGamesCourse.git
-cd LestaGamesCourse/arcanoid
+git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
+cd arcanoid
 cmake -B build -G "Ninja" -S .
 cmake --build build
 
@@ -38,8 +40,8 @@ cd build && ./arcanoid
 4. Run the following set of commands to build project:
 
 ```
-git clone --recurse-submodules https://github.com/ArthurBandaryk/LestaGamesCourse.git
-cd LestaGamesCourse/arcanoid
+git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
+cd arcanoid
 cmake -B build -G "Ninja" -S .
 cmake --build build
 
@@ -54,10 +56,10 @@ cd build && arcanoid.exe
 
 ### Using MSVC
 
-1. First of all clone [`this`](https://github.com/ArthurBandaryk/LestaGamesCourse) repo:
+1. First of all clone [`this`](https://github.com/ArthurBandaryk/arcanoid.git) repo:
 
 ```
-git clone --recurse-submodules https://github.com/ArthurBandaryk/LestaGamesCourse.git
+git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
 
 ```
 
