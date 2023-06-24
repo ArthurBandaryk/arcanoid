@@ -555,7 +555,9 @@ bool ImGui_ImplSdlGL3_Init(SDL_Window* window)
 
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
 
+#ifndef __ANDROID__
     io.Fonts->AddFontFromFileTTF("res/Roboto-Medium.ttf", 50.f);
+#endif
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();

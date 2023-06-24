@@ -397,31 +397,29 @@ namespace arci
     {
         std::vector<unsigned char> raw_png_image {};
 
-        std::ifstream file { path.data(), std::ios::binary };
+        SDL_RWops* rwop = SDL_RWFromFile(path.data(), "rb");
 
         std::ostringstream error_on_opening {};
-        error_on_opening << "Error on opening texture for path "
-                         << path << "\n";
-        if (!file.is_open())
+        error_on_opening << "Error on opening " << path << "\n";
+
+        if (!rwop)
         {
             print_ostream_msg_and_exit(error_on_opening);
         }
 
-        const std::filesystem::path fs_path { path.data() };
+        const auto bytes_to_read = rwop->size(rwop);
 
-        const std::size_t bytes_to_read {
-            static_cast<std::size_t>(std::filesystem::file_size(fs_path))
-        };
-
-        CHECK(bytes_to_read);
+        CHECK(bytes_to_read != -1);
 
         raw_png_image.resize(bytes_to_read);
 
-        file.read(reinterpret_cast<char*>(raw_png_image.data()), bytes_to_read);
-        CHECK(file.good());
+        const auto bytes_read = rwop->read(rwop,
+                                           raw_png_image.data(),
+                                           bytes_to_read);
 
-        file.close();
-        CHECK(file.good());
+        CHECK(bytes_read == bytes_to_read);
+
+        CHECK(!rwop->close(rwop));
 
         int w {}, h {}, components {}, required_comps { 4 };
 
@@ -545,6 +543,27 @@ namespace arci
 
         m_screen_width = 1024u;
         m_screen_height = 768u;
+
+#ifdef __ANDROID__
+        int num_displays {};
+        const auto* list_of_displays = SDL_GetDisplays(&num_displays);
+
+        if (list_of_displays == nullptr)
+        {
+            __android_log_print(ANDROID_LOG_ERROR,
+                                "ARCI",
+                                "Cannot load a list of displays");
+            throw std::runtime_error { "Error on getting a list of displays" };
+        }
+
+        const SDL_DisplayMode* display_mode
+            = SDL_GetCurrentDisplayMode(list_of_displays[num_displays - 1]);
+
+        CHECK_NOTNULL(display_mode);
+
+        m_screen_width = display_mode->w;
+        m_screen_height = display_mode->h;
+#endif
 
         // Window setup.
         m_window = std::unique_ptr<SDL_Window, void (*)(SDL_Window*)>(
