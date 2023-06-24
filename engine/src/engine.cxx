@@ -10,7 +10,6 @@
 #ifdef __ANDROID__
 /* clang-format off */
 #include <android/log.h>
-#include <GLES3/gl32.h>
 /* clang-format on */
 #endif
 
