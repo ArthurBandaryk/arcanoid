@@ -1,8 +1,20 @@
 #pragma once
 
+#ifndef __ANDROID__
+/* clang-format off */
 #include <fmt/core.h>
+/* clang-format on */
+#endif
+
 #include <sstream>
 #include <type_traits>
+
+#ifdef __ANDROID__
+/* clang-format off */
+#include <android/log.h>
+#include <stdexcept>
+/* clang-format on */
+#endif
 
 namespace arci
 {
@@ -15,8 +27,16 @@ namespace arci
 
     inline void print_ostream_msg_and_exit(const std::ostringstream& os)
     {
+#ifndef __ANDROID__
         fmt::print(os.str());
+
+        // On Android we can not call std::exit as it will finish app
+        // incorrectly.
         std::exit(1);
+#else
+        __android_log_print(ANDROID_LOG_ERROR, "ARCI", "%s", os.str().c_str());
+        throw std::runtime_error { "Runtime error" };
+#endif
     }
 
     namespace core
@@ -28,11 +48,21 @@ namespace arci
         {
             if (!condition)
             {
+#ifndef __ANDROID__
                 fmt::print("Check failed: {}\n"
                            "File: {}\n"
                            "Line: {}\n",
                            condition_name, file_name, line);
                 std::exit(1);
+#else
+                __android_log_print(ANDROID_LOG_ERROR,
+                                    "ARCI",
+                                    "Check failed: %s\nFile: %s\nLine: %d",
+                                    condition_name,
+                                    file_name,
+                                    static_cast<int>(line));
+                throw std::runtime_error { "Check failed" };
+#endif
             }
         }
 
@@ -48,11 +78,21 @@ namespace arci
 
             if (ptr == nullptr)
             {
+#ifndef __ANDROID__
                 fmt::print("CHECK_NOTNULL(...) failed: {} is nullptr\n"
                            "File: {}\n"
                            "Line: {}\n",
                            ptr_name, file_name, line);
                 std::exit(1);
+#else
+                __android_log_print(ANDROID_LOG_ERROR,
+                                    "ARCI",
+                                    "CHECK_NOTNULL(...): %s\nFile: %s\nLine: %d",
+                                    ptr_name,
+                                    file_name,
+                                    static_cast<int>(line));
+                throw std::runtime_error { "Check failed" };
+#endif
             }
         }
 
@@ -62,11 +102,22 @@ namespace arci
                                        const char* file_name,
                                        const std::size_t line)
         {
+#ifndef __ANDROID__
             fmt::print("CHECK_NOTNULL(...) failed: {} is nullptr\n"
                        "File: {}\n"
                        "Line: {}\n",
                        ptr_name, file_name, line);
             std::exit(1);
+#else
+            __android_log_print(ANDROID_LOG_ERROR,
+                                "ARCI",
+                                "CHECK_NOTNULL(...): %s\nFile: %s\nLine: %d",
+                                ptr_name,
+                                file_name,
+                                static_cast<int>(line));
+            throw std::runtime_error { "Check failed" };
+
+#endif
         }
     }
 }

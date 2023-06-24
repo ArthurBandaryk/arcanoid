@@ -274,7 +274,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
             "c++_shared",
             "SDL3",
             //"arcanoid",
-            //"engine",
+            "engine",
             "arcanoid",
             //"engine",
             //"arcanoid",
