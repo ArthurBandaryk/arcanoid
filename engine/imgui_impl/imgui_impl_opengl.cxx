@@ -35,7 +35,6 @@
 #include <glad/glad.h>
 
 #include <chrono>
-#include <vector>
 
 // Data
 static std::chrono::time_point<std::chrono::steady_clock> g_Time
