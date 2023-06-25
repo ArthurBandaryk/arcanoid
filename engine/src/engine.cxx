@@ -726,6 +726,36 @@ namespace arci
             case SDL_EVENT_MOUSE_BUTTON_UP:
                 break;
 
+            case SDL_EVENT_FINGER_DOWN:
+                // SDL_EVENT_
+                event.device = event_from_device::touch;
+                if (sdl_event.tfinger.x <= 0.5f)
+                {
+                    event.key_info = key_event::left_button_pressed;
+                }
+                else
+                {
+                    event.key_info = key_event::right_button_pressed;
+                }
+                break;
+
+            case SDL_EVENT_FINGER_MOTION:
+                // SDL_EVENT_
+                event.device = event_from_device::touch;
+                if (sdl_event.tfinger.x <= 0.5f)
+                {
+                    event.key_info = key_event::left_button_pressed;
+                }
+                else
+                {
+                    event.key_info = key_event::right_button_pressed;
+                }
+                break;
+
+            case SDL_EVENT_FINGER_UP:
+                event.device = event_from_device::none;
+                break;
+
             default:
                 break;
             }

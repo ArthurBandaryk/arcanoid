@@ -30,6 +30,8 @@ namespace arci
     {
         keyboard,
         mouse,
+        touch,
+        none
     };
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -80,7 +82,7 @@ namespace arci
 
     struct event
     {
-        event_from_device device;
+        event_from_device device { event_from_device::none };
         std::optional<mouse_event> mouse_info;
         std::optional<key_event> key_info;
         bool is_quitting { false };

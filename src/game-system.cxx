@@ -89,8 +89,7 @@ namespace arcanoid
                               arci::iengine* engine,
                               [[maybe_unused]] const float dt)
     {
-        const float t = 1.f / 60.f;
-        const float speed { 15.f / t };
+        const float speed { 15.f * 60.f };
 
         for (entity i = 1; i <= entities_number; i++)
         {
@@ -110,6 +109,46 @@ namespace arcanoid
                 {
                     a_coordinator.transformations.at(i).speed_x = 0.f;
                 }
+            }
+        }
+    }
+
+    void input_system::update(coordinator& a_coordinator)
+    {
+        const float speed { 15.f * 60.f };
+
+        for (entity i = 1; i <= entities_number; i++)
+        {
+            if (!a_coordinator.inputs.count(i)
+                || !a_coordinator.transformations.count(i))
+            {
+                continue;
+            }
+
+            transform2d& tr = a_coordinator.transformations.at(i);
+
+            if (!event)
+            {
+                tr.speed_x = 0.f;
+                continue;
+            }
+
+            const arci::event& e = event.value();
+
+            if (!e.key_info || e.device == arci::event_from_device::none)
+            {
+                tr.speed_x = 0.f;
+                continue;
+            }
+
+            if (*e.key_info == arci::key_event::left_button_pressed)
+            {
+                tr.speed_x = -speed;
+            }
+
+            if (*e.key_info == arci::key_event::right_button_pressed)
+            {
+                tr.speed_x = speed;
             }
         }
     }

@@ -40,6 +40,11 @@ namespace arcanoid
                 m_status = game_status::exit;
                 break;
             }
+
+            if (m_status == game_status::game)
+            {
+                m_input_system.event = event;
+            }
         }
     }
 
@@ -54,7 +59,11 @@ namespace arcanoid
         dt = std::min(dt, 1.0f / 60.0f);
 
         m_game_over_system.update(m_coordinator, m_status, m_screen_h);
+#ifndef __ANDROID__
         m_input_system.update(m_coordinator, m_engine.get(), dt);
+#else
+        m_input_system.update(m_coordinator);
+#endif
         m_collision_system.update(m_coordinator, dt, m_screen_w);
         m_transform_system.update(m_coordinator, dt);
     }

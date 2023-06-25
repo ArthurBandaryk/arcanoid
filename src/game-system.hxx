@@ -22,6 +22,9 @@ namespace arcanoid
     struct input_system
     {
         void update(coordinator& a_coordinator, arci::iengine* engine, const float dt);
+        void update(coordinator& a_coordinator);
+
+        std::optional<arci::event> event {};
     };
 
     struct collision_system
