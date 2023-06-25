@@ -20,6 +20,12 @@
 
 #include "opengl-debug.hxx"
 
+#ifdef __ANDROID__
+/* clang-format off */
+#include "roboto.hxx"
+/* clang-format on */
+#endif
+
 // SDL
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_mouse.h>
@@ -29,7 +35,7 @@
 #include <glad/glad.h>
 
 #include <chrono>
-#include <iostream>
+#include <vector>
 
 // Data
 static std::chrono::time_point<std::chrono::steady_clock> g_Time
@@ -557,6 +563,10 @@ bool ImGui_ImplSdlGL3_Init(SDL_Window* window)
 
 #ifndef __ANDROID__
     io.Fonts->AddFontFromFileTTF("res/Roboto-Medium.ttf", 50.f);
+#else
+    io.Fonts->AddFontFromMemoryCompressedTTF(RobotoFont_compressed_data,
+                                             RobotoFont_compressed_size,
+                                             100.f);
 #endif
 
     // Setup Dear ImGui style
