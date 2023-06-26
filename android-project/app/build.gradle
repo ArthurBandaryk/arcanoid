@@ -22,7 +22,7 @@ android {
         if (buildAsApplication) {
             applicationId "org.home.arci_arcanoid"
         }
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"

@@ -727,7 +727,6 @@ namespace arci
                 break;
 
             case SDL_EVENT_FINGER_DOWN:
-                // SDL_EVENT_
                 event.device = event_from_device::touch;
                 if (sdl_event.tfinger.x <= 0.5f)
                 {
@@ -740,7 +739,6 @@ namespace arci
                 break;
 
             case SDL_EVENT_FINGER_MOTION:
-                // SDL_EVENT_
                 event.device = event_from_device::touch;
                 if (sdl_event.tfinger.x <= 0.5f)
                 {
