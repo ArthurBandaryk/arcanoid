@@ -152,12 +152,16 @@ namespace arcanoid
         arci::CHECK_NOTNULL(yellow_brick_texture);
         m_textures.push_back(yellow_brick_texture);
 
-        const float brick_width { m_screen_w / 10.f };
-        const float brick_height { m_screen_h / 20.f };
+        constexpr int num_bricks_w { 9 }, num_bricks_h { 7 };
 
-        for (int i = 0; i < 7; i++)
+        const float brick_width {
+            static_cast<float>(m_screen_w) / num_bricks_w
+        };
+        const float brick_height { m_screen_h / 15.f };
+
+        for (int i = 0; i < num_bricks_h; i++)
         {
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < num_bricks_w; j++)
             {
                 entity brick = create_entity();
 
