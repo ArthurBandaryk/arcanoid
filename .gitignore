@@ -5,9 +5,12 @@ build
 # Vs folder for Microsoft Visual Studio.
 .vs
 
+.vscode
+
 # CMake install directories.
 install
 
+# Android Studio directories.
 .idea
 out
 .gradle

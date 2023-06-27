@@ -544,6 +544,8 @@ namespace arci
         m_screen_width = 1024u;
         m_screen_height = 768u;
 
+        Uint32 window_flags = SDL_WINDOW_OPENGL;
+
 #ifdef __ANDROID__
         int num_displays {};
         const auto* list_of_displays = SDL_GetDisplays(&num_displays);
@@ -563,6 +565,8 @@ namespace arci
 
         m_screen_width = display_mode->w;
         m_screen_height = display_mode->h;
+
+        window_flags |= SDL_WINDOW_FULLSCREEN;
 #endif
 
         // Window setup.
@@ -571,7 +575,7 @@ namespace arci
                 "Arcanoid",
                 m_screen_width,
                 m_screen_height,
-                SDL_WINDOW_OPENGL),
+                window_flags),
             SDL_DestroyWindow);
 
         CHECK_NOTNULL(m_window.get());
