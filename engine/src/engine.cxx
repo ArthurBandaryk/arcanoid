@@ -194,6 +194,8 @@ namespace arci
         std::size_t m_num_vertices {};
     };
 
+    ///////////////////////////////////////////////////////////////////////////////
+
     class index_buffer : public i_index_buffer
     {
     public:
@@ -645,7 +647,10 @@ namespace arci
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         opengl_check();
 
-        glViewport(0, 0, m_screen_width, m_screen_height);
+        int w {}, h {};
+        CHECK(!SDL_GetWindowSizeInPixels(m_window.get(), &w, &h));
+
+        glViewport(0, 0, w, h);
         opengl_check();
 
         ImGui_ImplSdlGL3_Init(m_window.get());
