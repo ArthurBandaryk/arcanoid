@@ -1,3 +1,4 @@
+# https://cmake.org/cmake/help/latest/command/file.html
 list(
     APPEND
     RESOURCE_FILES

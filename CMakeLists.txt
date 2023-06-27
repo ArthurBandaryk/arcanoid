@@ -58,18 +58,18 @@ if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Android")
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
                      ${CMAKE_BINARY_DIR}/SDL)
 else()
-        add_subdirectory(
-            # Specifies the directory for SDL3 root CMakeLists.txt.
-            ${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
-            # Specifies the directory for the build outputs.
-            ${CMAKE_CURRENT_BINARY_DIR}/SDL_${ANDROID_ABI})
+    add_subdirectory(
+        # Specifies the directory for SDL3 root CMakeLists.txt.
+        ${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
+        # Specifies the directory for the build outputs.
+        ${CMAKE_CURRENT_BINARY_DIR}/SDL_${ANDROID_ABI})
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/glm
                  ${CMAKE_BINARY_DIR}/glm)
 
 # Official CMake doc doesn't recommend to use GLOB. Check this:
-# https://cmake.org/cmake/help/latest/command/include_directories.html
+# https://cmake.org/cmake/help/latest/command/file.html
 list(
     APPEND
     APP_SOURCES
