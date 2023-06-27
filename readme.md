@@ -1,9 +1,10 @@
 # Arcanoid game
 
-Build Platform          |
-------------------------|
-Linux x64(gcc, clang)   |
-Windows x64(MSVC, LLVM) |
+Build Platform            |
+--------------------------|
+Linux x64(gcc, clang)     |
+Windows x64(MSVC, LLVM)   |
+Android (API Level >= 21) |
 
  Stack                                      |
 --------------------------------------------|
@@ -81,3 +82,28 @@ git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
 ![Build with MSVC](help-imgs/build.png)
 
 6. Then click `Run` button and enjoy it:)
+
+## Build steps for Android using Android Studio
+
+1. Make sure you have installed [`Android Studio`](https://developer.android.com/studio).
+
+2. Upgrade your SDK if you have version less than `33`.
+
+3. Upgrade NDK if the version is less than `25.2.9519653`.
+
+4. Clone [`arcanoid`](https://github.com/ArthurBandaryk/arcanoid.git) repo:
+
+```
+git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
+
+```
+
+5. Open `android-project` folder in your Android Studio (android/android-project):
+
+![Open android-project](help-imgs/open-android.png)
+
+6. Press `Build` button or `CTRL + F9` to start building process.
+
+7. Then just connect your android device to `Android Studio`, make sure that you've turned on `developer settings` and `debugging via usb` on your android machine.
+
+8. Click run button and enjoy it.
