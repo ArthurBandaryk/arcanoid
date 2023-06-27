@@ -98,7 +98,7 @@ git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
 
 ```
 
-5. Open `android-project` folder in your Android Studio (android/android-project):
+5. Open `android-project` folder in your Android Studio (arcanoid/android-project):
 
 ![Open android-project](help-imgs/open-android.png)
 
