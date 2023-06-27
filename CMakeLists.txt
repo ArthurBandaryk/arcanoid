@@ -57,14 +57,12 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/fmt
 if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Android")
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
                      ${CMAKE_BINARY_DIR}/SDL)
-elseif(SDL3_SRC_DIR)
-    add_subdirectory(
-        # Specifies the directory for SDL3 root CMakeLists.txt.
-        ${SDL3_SRC_DIR}
-        # Specifies the directory for the build outputs.
-        ${CMAKE_CURRENT_BINARY_DIR}/SDL_${ANDROID_ABI})
 else()
-    message(FATAL_ERROR "SDL3 source directory not found for Android build.")
+        add_subdirectory(
+            # Specifies the directory for SDL3 root CMakeLists.txt.
+            ${CMAKE_CURRENT_SOURCE_DIR}/submodules/SDL
+            # Specifies the directory for the build outputs.
+            ${CMAKE_CURRENT_BINARY_DIR}/SDL_${ANDROID_ABI})
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodules/glm

@@ -7,14 +7,6 @@ else {
     apply plugin: 'com.android.library'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def sdl3Dir = properties.getProperty('sdl3.dir')
-if (sdl3Dir == null)
-{
-    throw new IllegalArgumentException("Error: specify sdl3 path in your `local.properties` file")
-}
-
 android {
     compileSdkVersion 33
     ndkVersion '25.2.9519653'
@@ -28,9 +20,7 @@ android {
         versionName "1.0"
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_STL=c++_shared", "-DSDL3_SRC_DIR=$sdl3Dir"
-                // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-                // abiFilters 'arm64-v8a'
+                arguments "-DANDROID_STL=c++_shared"
             }
         }
     }
