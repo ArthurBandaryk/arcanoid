@@ -53,16 +53,16 @@ namespace arci
         fmt::print(severity_msg_enum_to_string(severity));
         fmt::print(message);
 #else
-        const char* c_source = source_msg_enum_to_string(source).c_str();
-        const char* c_type = type_msg_enum_to_string(type).c_str();
-        const char* c_severity = severity_msg_enum_to_string(severity).c_str();
+        const std::string src = source_msg_enum_to_string(source);
+        const std::string type_msg = type_msg_enum_to_string(type);
+        const std::string severity_msg = severity_msg_enum_to_string(severity);
 
-        __android_log_print(ANDROID_LOG_ERROR, "ARCI", "Message id: %d\n"
+        __android_log_print(ANDROID_LOG_ERROR, "ARCI", "Message id: %u\n"
                                                        "%s\n%s\n%s\n%s\n",
                             id,
-                            c_source,
-                            c_type,
-                            c_severity,
+                            src.c_str(),
+                            type_msg.c_str(),
+                            severity_msg.c_str(),
                             message);
 #endif
     }
