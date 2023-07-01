@@ -5,6 +5,7 @@ namespace arcanoid
     void coordinator::destroy_entity(const entity id)
     {
         positions.erase(id);
+        bounds.erase(id);
         sprites.erase(id);
         transformations.erase(id);
         inputs.erase(id);

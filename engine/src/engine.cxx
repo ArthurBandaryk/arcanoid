@@ -1007,6 +1007,7 @@ namespace arci
     {
         CHECK(SDL_PauseAudioDevice(m_audio_device_id) == 0);
         SDL_CloseAudioDevice(m_audio_device_id);
+        imgui_uninit();
         SDL_Quit();
     }
 

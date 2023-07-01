@@ -133,8 +133,6 @@ namespace arcanoid
         {
             m_engine->destroy_audio_buffer(audio_buffer);
         }
-
-        m_engine->imgui_uninit();
     }
 
     void game::init_world()
@@ -159,6 +157,8 @@ namespace arcanoid
         };
         const float brick_height { m_screen_h / 15.f };
 
+        bound brick_bound { brick_width, brick_height };
+
         for (int i = 0; i < num_bricks_h; i++)
         {
             for (int j = 0; j < num_bricks_w; j++)
@@ -167,25 +167,24 @@ namespace arcanoid
 
                 position brick_position {
                     glm::vec2 { 0.f + brick_width * j,
-                                0.f + brick_height * i },
-                    glm::vec2 { brick_width + brick_width * j,
-                                0.f + brick_height * i },
-                    glm::vec2 { brick_width + brick_width * j,
-                                brick_height + brick_height * i },
-                    glm::vec2 { 0.f + brick_width * j,
-                                brick_height + brick_height * i },
+                                0.f + brick_height * i }
                 };
+
                 const auto [it1, position_inserted]
                     = m_coordinator.positions.insert({ brick, brick_position });
                 arci::CHECK(position_inserted);
 
+                const auto [it2, bound_inserted]
+                    = m_coordinator.bounds.insert({ brick, brick_bound });
+                arci::CHECK(bound_inserted);
+
                 sprite brick_sprite { yellow_brick_texture };
-                const auto [it2, sprite_inserted]
+                const auto [it3, sprite_inserted]
                     = m_coordinator.sprites.insert({ brick, brick_sprite });
                 arci::CHECK(sprite_inserted);
 
                 collision collision_component {};
-                const auto [it3, collision_inserted]
+                const auto [it4, collision_inserted]
                     = m_coordinator.collidable_entities.insert(
                         { brick, collision_component });
                 arci::CHECK(collision_inserted);
@@ -202,18 +201,21 @@ namespace arcanoid
         arci::CHECK_NOTNULL(background_texture);
         m_textures.push_back(background_texture);
 
-        position pos {
-            glm::vec2 { 0.f, 0.f },
-            glm::vec2 { m_screen_w, 0.f },
-            glm::vec2 { m_screen_w, m_screen_h },
-            glm::vec2 { 0.f, m_screen_h },
-        };
+        position pos { glm::vec2 { 0.f, 0.f } };
+
+        bound b { static_cast<float>(m_screen_w),
+                  static_cast<float>(m_screen_h) };
+
         const auto [it1, pos_inserted]
             = m_coordinator.positions.insert({ background, pos });
         arci::CHECK(pos_inserted);
 
+        const auto [it2, bound_inserted]
+            = m_coordinator.bounds.insert({ background, b });
+        arci::CHECK(bound_inserted);
+
         sprite spr { background_texture };
-        const auto [it2, sprite_inserted]
+        const auto [it3, sprite_inserted]
             = m_coordinator.sprites.insert({ background, spr });
         arci::CHECK(sprite_inserted);
     }
@@ -232,14 +234,11 @@ namespace arcanoid
 
         position pos {
             glm::vec2 { m_screen_w / 2.f - ball_width / 2.f,
-                        3.f * m_screen_h / 4.f - ball_height / 2.f },
-            glm::vec2 { m_screen_w / 2.f + ball_width / 2.f,
-                        3.f * m_screen_h / 4.f - ball_height / 2.f },
-            glm::vec2 { m_screen_w / 2.f + ball_width / 2.f,
-                        3.f * m_screen_h / 4.f + ball_height / 2.f },
-            glm::vec2 { m_screen_w / 2.f - ball_width / 2.f,
-                        3.f * m_screen_h / 4.f + ball_height / 2.f },
+                        3.f * m_screen_h / 4.f - ball_height / 2.f }
         };
+
+        bound ball_bound { ball_width, ball_height };
+
         const auto [it1, pos_inserted]
             = m_coordinator.positions.insert({ ball, pos });
         arci::CHECK(pos_inserted);
@@ -263,6 +262,10 @@ namespace arcanoid
         const auto [it5, collision_id_inserted]
             = m_coordinator.collidable_ids.insert({ "ball", ball });
         arci::CHECK(collision_id_inserted);
+
+        const auto [it6, bound_inserted]
+            = m_coordinator.bounds.insert({ ball, ball_bound });
+        arci::CHECK(bound_inserted);
     }
 
     void game::init_platform()
@@ -277,16 +280,13 @@ namespace arcanoid
         const float platform_width { m_screen_w / 6.f };
         const float platform_height { m_screen_w / 35.f };
 
+        bound platform_bound { platform_width, platform_height };
+
         position pos {
             glm::vec2 { m_screen_w / 2.f - platform_width / 2.f,
-                        m_screen_h - platform_height },
-            glm::vec2 { m_screen_w / 2.f + platform_width / 2.f,
-                        m_screen_h - platform_height },
-            glm::vec2 { m_screen_w / 2.f + platform_width / 2.f,
-                        m_screen_h },
-            glm::vec2 { m_screen_w / 2.f - platform_width / 2.f,
-                        m_screen_h },
+                        m_screen_h - platform_height }
         };
+
         const auto [it1, pos_inserted]
             = m_coordinator.positions.insert({ platform, pos });
         arci::CHECK(pos_inserted);
@@ -315,5 +315,9 @@ namespace arcanoid
         const auto [it6, collision_id_inserted]
             = m_coordinator.collidable_ids.insert({ "platform", platform });
         arci::CHECK(collision_id_inserted);
+
+        const auto [it7, bound_inserted]
+            = m_coordinator.bounds.insert({ platform, platform_bound });
+        arci::CHECK(bound_inserted);
     }
 }

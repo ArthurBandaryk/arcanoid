@@ -33,9 +33,9 @@ namespace arcanoid
                     const float dt,
                     const std::size_t screen_width);
 
-        bool are_collidable(const position& pos1, const position& pos2);
-
     private:
+        bool are_collidable(const entity& ent1, const entity& ent2, const coordinator& a_coordinator);
+
         void resolve_collision_for_ball(const entity id,
                                         coordinator& a_coordinator,
                                         const float dt,
@@ -60,13 +60,11 @@ namespace arcanoid
                                       const float dt);
 
         void reflect_ball_from_brick(const entity ball_id,
-                                     const position& ball_pos,
-                                     const position& brick_pos,
+                                     const entity brick_id,
                                      coordinator& a_coordinator);
 
         void reflect_ball_from_platform(const entity ball_id,
-                                        const position& ball_pos,
-                                        const position& platform_pos,
+                                        const entity platform_id,
                                         coordinator& a_coordinator,
                                         float dt);
     };

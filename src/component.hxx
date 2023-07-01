@@ -10,7 +10,14 @@ namespace arcanoid
 {
     struct position
     {
-        std::array<glm::vec2, 4u> vertices;
+        // Top left edge of the entity.
+        glm::vec2 pos;
+    };
+
+    struct bound
+    {
+        float width {};
+        float height {};
     };
 
     struct sprite
