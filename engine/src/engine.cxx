@@ -1146,7 +1146,6 @@ namespace arci
 
     void engine_destroy(iengine* engine)
     {
-        CHECK_NOTNULL(engine);
         delete engine;
     }
 
