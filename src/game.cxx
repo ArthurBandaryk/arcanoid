@@ -166,8 +166,8 @@ namespace arcanoid
                 entity brick = create_entity();
 
                 position brick_position {
-                    glm::vec2 { 0.f + brick_width * j,
-                                0.f + brick_height * i }
+                    0.f + brick_width * j,
+                    0.f + brick_height * i
                 };
 
                 const auto [it1, position_inserted]
@@ -201,7 +201,7 @@ namespace arcanoid
         arci::CHECK_NOTNULL(background_texture);
         m_textures.push_back(background_texture);
 
-        position pos { glm::vec2 { 0.f, 0.f } };
+        position pos { 0.f, 0.f };
 
         bound b { static_cast<float>(m_screen_w),
                   static_cast<float>(m_screen_h) };
@@ -233,8 +233,8 @@ namespace arcanoid
         const float ball_height { m_screen_w / 45.f };
 
         position pos {
-            glm::vec2 { m_screen_w / 2.f - ball_width / 2.f,
-                        3.f * m_screen_h / 4.f - ball_height / 2.f }
+            m_screen_w / 2.f - ball_width / 2.f,
+            3.f * m_screen_h / 4.f - ball_height / 2.f
         };
 
         bound ball_bound { ball_width, ball_height };
@@ -283,8 +283,8 @@ namespace arcanoid
         bound platform_bound { platform_width, platform_height };
 
         position pos {
-            glm::vec2 { m_screen_w / 2.f - platform_width / 2.f,
-                        m_screen_h - platform_height }
+            m_screen_w / 2.f - platform_width / 2.f,
+            m_screen_h - platform_height
         };
 
         const auto [it1, pos_inserted]

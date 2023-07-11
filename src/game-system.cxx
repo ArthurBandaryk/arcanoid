@@ -24,23 +24,25 @@ namespace arcanoid
                 const auto [w, h] = a_coordinator.bounds.at(i);
 
                 // Translate from world to ndc coordinates.
-                auto from_world_to_ndc = [this](const glm::vec2& world_pos) {
-                    return glm::vec2 { -1.f + world_pos[0] * 2.f / screen_width,
-                                       1.f - world_pos[1] * 2 / screen_height };
+                auto from_world_to_ndc = [this](const position& world_pos) {
+                    return position { -1.f + world_pos.x * 2.f / screen_width,
+                                      1.f - world_pos.y * 2 / screen_height };
                 };
 
-                glm::vec2 top_right_ndc {
-                    from_world_to_ndc({ top_left.pos.x + w, top_left.pos.y })
-                };
-                glm::vec2 bottom_right_ndc {
-                    from_world_to_ndc({ top_left.pos.x + w,
-                                        top_left.pos.y + h })
-                };
-                glm::vec2 bottom_left_ndc {
-                    from_world_to_ndc({ top_left.pos.x, top_left.pos.y + h })
+                position top_right_ndc {
+                    from_world_to_ndc({ top_left.x + w, top_left.y })
                 };
 
-                glm::vec2 top_left_ndc = from_world_to_ndc(top_left.pos);
+                position bottom_right_ndc {
+                    from_world_to_ndc({ top_left.x + w,
+                                        top_left.y + h })
+                };
+
+                position bottom_left_ndc {
+                    from_world_to_ndc({ top_left.x, top_left.y + h })
+                };
+
+                position top_left_ndc = from_world_to_ndc(top_left);
 
                 std::vector<arci::vertex> vertices {
                     { top_left_ndc.x, top_left_ndc.y, 1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 1.f },
@@ -73,8 +75,8 @@ namespace arcanoid
                 position& top_left = a_coordinator.positions.at(i);
                 const transform2d& tr = a_coordinator.transformations.at(i);
 
-                top_left.pos.x += tr.speed_x * dt;
-                top_left.pos.y += tr.speed_y * dt;
+                top_left.x += tr.speed_x * dt;
+                top_left.y += tr.speed_y * dt;
             }
         }
     }
@@ -172,8 +174,8 @@ namespace arcanoid
         }
     }
 
-    bool collision_system::are_collidable(const entity& ent1,
-                                          const entity& ent2,
+    bool collision_system::are_collidable(const entity ent1,
+                                          const entity ent2,
                                           const coordinator& a_coordinator)
     {
         const position& top_left1 = a_coordinator.positions.at(ent1);
@@ -182,15 +184,15 @@ namespace arcanoid
         const auto [w1, h1] = a_coordinator.bounds.at(ent1);
         const auto [w2, h2] = a_coordinator.bounds.at(ent2);
 
-        const float x1_left { top_left1.pos.x };
-        const float x1_right { top_left1.pos.x + w1 };
-        const float y1_top { top_left1.pos.y };
-        const float y1_bottom { top_left1.pos.y + h1 };
+        const float x1_left { top_left1.x };
+        const float x1_right { top_left1.x + w1 };
+        const float y1_top { top_left1.y };
+        const float y1_bottom { top_left1.y + h1 };
 
-        const float x2_left { top_left2.pos.x };
-        const float x2_right { top_left2.pos.x + w2 };
-        const float y2_top { top_left2.pos.y };
-        const float y2_bottom { top_left2.pos.y + h2 };
+        const float x2_left { top_left2.x };
+        const float x2_right { top_left2.x + w2 };
+        const float y2_top { top_left2.y };
+        const float y2_bottom { top_left2.y + h2 };
 
         // Check if collision occurs for X axis.
         if ((x2_left <= x1_right && x2_left >= x1_left)
@@ -217,18 +219,18 @@ namespace arcanoid
         transform2d& tr = a_coordinator.transformations.at(id);
         const auto [w, _] = a_coordinator.bounds.at(id);
 
-        const float new_left_x = top_left.pos.x + tr.speed_x * dt;
-        const float new_right_x = top_left.pos.x + w + tr.speed_x * dt;
+        const float new_left_x = top_left.x + tr.speed_x * dt;
+        const float new_right_x = top_left.x + w + tr.speed_x * dt;
 
         if (new_left_x <= 0.f)
         {
-            top_left.pos.x = 0.f;
+            top_left.x = 0.f;
             tr.speed_x = 0.f;
         }
 
         if (new_right_x >= screen_width)
         {
-            top_left.pos.x = screen_width - w;
+            top_left.x = screen_width - w;
             tr.speed_x = 0.f;
         }
     }
@@ -243,9 +245,9 @@ namespace arcanoid
         transform2d& tr = a_coordinator.transformations.at(id);
         const auto [w, h] = a_coordinator.bounds.at(id);
 
-        const float new_left_x = top_left.pos.x + tr.speed_x * dt;
-        const float new_top_y = top_left.pos.y + tr.speed_y * dt;
-        const float new_right_x = top_left.pos.x + w + tr.speed_x * dt;
+        const float new_left_x = top_left.x + tr.speed_x * dt;
+        const float new_top_y = top_left.y + tr.speed_y * dt;
+        const float new_right_x = top_left.x + w + tr.speed_x * dt;
 
         if (new_left_x < 0.f || new_right_x > screen_width)
         {
@@ -340,20 +342,16 @@ namespace arcanoid
         const auto [ball_w, ball_h] = a_coordinator.bounds.at(ball_id);
         const auto [brick_w, brick_h] = a_coordinator.bounds.at(brick_id);
 
-        const float ball_x_left { top_left_ball.pos.x };
-        const float ball_x_right { top_left_ball.pos.x + ball_w };
-        const float ball_y_top { top_left_ball.pos.y };
-        const float ball_y_bottom { top_left_ball.pos.y + ball_h };
+        const float ball_x_left { top_left_ball.x };
+        const float ball_y_top { top_left_ball.y };
 
-        const float brick_x_left { top_left_brick.pos.x };
-        const float brick_x_right { top_left_brick.pos.x + brick_w };
-        const float brick_y_top { top_left_brick.pos.y };
-        const float brick_y_bottom { top_left_brick.pos.y + brick_h };
+        const float brick_x_left { top_left_brick.x };
+        const float brick_x_right { top_left_brick.x + brick_w };
+        const float brick_y_top { top_left_brick.y };
+        const float brick_y_bottom { top_left_brick.y + brick_h };
 
-        const float ball_w_half { (ball_x_right - ball_x_left) / 2.f };
-        const float ball_h_half { (ball_y_bottom - ball_y_top) / 2.f };
-        const float ball_center_x = ball_x_left + ball_w_half;
-        const float ball_center_y = ball_y_top + ball_h_half;
+        const float ball_center_x = ball_x_left + ball_w / 2.f;
+        const float ball_center_y = ball_y_top + ball_h / 2.f;
 
         // First case. Ball intersects only horizontal line of brick.
         if (ball_center_x <= brick_x_right && ball_center_x >= brick_x_left)
@@ -417,20 +415,16 @@ namespace arcanoid
         const auto [ball_w, ball_h] = a_coordinator.bounds.at(ball_id);
         const auto [platform_w, platform_h] = a_coordinator.bounds.at(platform_id);
 
-        const float ball_x_left { top_left_ball.pos.x };
-        const float ball_x_right { top_left_ball.pos.x + ball_w };
-        const float ball_y_top { top_left_ball.pos.y };
-        const float ball_y_bottom { top_left_ball.pos.y + ball_h };
+        const float ball_x_left { top_left_ball.x };
+        const float ball_y_top { top_left_ball.y };
 
-        const float platform_x_left { top_left_platform.pos.x };
-        const float platform_x_right { top_left_platform.pos.x + platform_w };
-        const float platform_y_top { top_left_platform.pos.y };
-        const float platform_y_bottom { top_left_platform.pos.y + platform_h };
+        const float platform_x_left { top_left_platform.x };
+        const float platform_x_right { top_left_platform.x + platform_w };
+        const float platform_y_top { top_left_platform.y };
+        const float platform_y_bottom { top_left_platform.y + platform_h };
 
-        const float ball_w_half { (ball_x_right - ball_x_left) / 2.f };
-        const float ball_h_half { (ball_y_bottom - ball_y_top) / 2.f };
-        const float ball_center_x = ball_x_left + ball_w_half;
-        const float ball_center_y = ball_y_top + ball_h_half;
+        const float ball_center_x = ball_x_left + ball_w / 2.f;
+        const float ball_center_y = ball_y_top + ball_h / 2.f;
 
         // Set reflection angle for X axis.
         const float platform_w_half
@@ -482,7 +476,7 @@ namespace arcanoid
         const position& ball_top_left = a_coordinator.positions.at(ball_id);
         const auto [_, ball_h] = a_coordinator.bounds.at(ball_id);
 
-        if (ball_top_left.pos.y + ball_h > screen_height)
+        if (ball_top_left.y + ball_h > screen_height)
         {
             status = game_status::game_over;
         }

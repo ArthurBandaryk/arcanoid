@@ -34,7 +34,7 @@ namespace arcanoid
                     const std::size_t screen_width);
 
     private:
-        bool are_collidable(const entity& ent1, const entity& ent2, const coordinator& a_coordinator);
+        bool are_collidable(const entity ent1, const entity ent2, const coordinator& a_coordinator);
 
         void resolve_collision_for_ball(const entity id,
                                         coordinator& a_coordinator,

@@ -8,9 +8,7 @@
 
 #include "FrameTimer.hxx"
 
-#include <map>
 #include <memory>
-#include <string>
 
 namespace arcanoid
 {
@@ -34,6 +32,7 @@ namespace arcanoid
 
         std::vector<arci::itexture*> m_textures {};
 
+        cFrameTimer m_frame_timer;
         coordinator m_coordinator {};
         input_system m_input_system {};
         sprite_system m_sprite_system {};
@@ -48,7 +47,5 @@ namespace arcanoid
         std::size_t m_screen_w {};
         std::size_t m_screen_h {};
         game_status m_status { game_status::main_menu };
-
-        cFrameTimer m_frame_timer;
     };
 }

@@ -2,16 +2,13 @@
 
 #include <engine.hxx>
 
-#include <glm/ext/vector_float2.hpp>
-
-#include <array>
-
 namespace arcanoid
 {
     struct position
     {
         // Top left edge of the entity.
-        glm::vec2 pos;
+        float x {};
+        float y {};
     };
 
     struct bound
@@ -38,11 +35,4 @@ namespace arcanoid
     struct collision
     {
     };
-
-    struct life
-    {
-        std::uint32_t lives_number {};
-        std::uint32_t lives_left {};
-    };
-
 }
