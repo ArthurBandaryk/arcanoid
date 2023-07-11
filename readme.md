@@ -15,6 +15,12 @@ This project was written basing on the work stuff from [`LestaGamesCourse`](http
 
 ![Arcanoid](help-imgs/game.png)
 
+## Executable files
+
+Here you can follow the link needed to grab executable files for specific OS just to run the game without building it:
+
+[`Executables.`](https://drive.google.com/drive/folders/1MOROOgW9hlcoeAEIhd9jPjv1AiFuf9K8?usp=drive_link)
+
 ## Build steps for Linux
 
 1. Run the following sets of commands in terminal:
@@ -87,7 +93,7 @@ git clone --recurse-submodules https://github.com/ArthurBandaryk/arcanoid.git
 
 1. Make sure you have installed [`Android Studio`](https://developer.android.com/studio).
 
-2. Upgrade your SDK if you have version less than `33`.
+2. Remember that minimum `SDK` version is `21`. It's recommended also to have gradle's version `8.0.2`.
 
 3. Upgrade NDK if the version is less than `25.2.9519653`.
 
